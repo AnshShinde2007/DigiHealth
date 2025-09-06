@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {
+    loginWithRedirect,
+    logout,
+    isAuthenticated,
+    user,
+    getAccessTokenSilently,
+    isLoading,
+  } = useAuth0();
+
+  const [apiResponse, setApiResponse] = useState(null);
+
+  const callApi = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/records`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      setApiResponse(data);
+    } catch (err) {
+      console.error("API call failed:", err);
+    }
+  };
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: "2rem", fontFamily: "Arial" }}>
+      {!isAuthenticated ? (<>
+        <button onClick={() => loginWithRedirect()}>Log In</button>
+        <h1>Welcome to DigiHealth</h1>
+        </>
+      ) : (
+        <>
+          <h2>Welcome, {user.name}</h2>
+          <img src={user.picture} alt="profile" style={{ borderRadius: "50px" }} />
+          <p>Email: {user.email}</p>
+
+          <button
+            onClick={() => logout({ returnTo: window.location.origin })}
+            style={{ marginRight: "10px" }}
+          >
+            Log Out
+          </button>
+          <button onClick={callApi}>Fetch Health Records</button>
+
+          {apiResponse && (
+            <pre style={{ marginTop: "20px", background: "#f4f4f4", padding: "10px" }}>
+              {JSON.stringify(apiResponse, null, 2)}
+            </pre>
+          )}
+        </>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
