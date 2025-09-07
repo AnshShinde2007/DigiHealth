@@ -1,10 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
-
-const API_URL = 'http://localhost:8000';
-
-function MigrantProfile() {
+const MigrantProfile = () => {
   const [profile, setProfile] = useState({
     name: 'John Doe',
     age: '30',
@@ -13,15 +12,9 @@ function MigrantProfile() {
     language: 'Arabic',
     migration_timeline: 'Fled home country in 2021, arrived in this country in 2022.'
   });
-
-  useEffect(() => {
-    // Commenting out API call to use dummy data
-    // axios.get(`${API_URL}/migrants/1`).then(response => {
-    //   if (response.data) {
-    //     setProfile(response.data);
-    //   }
-    // });
-  }, []);
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Migrant Profile Management</h1>
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -95,8 +88,10 @@ function MigrantProfile() {
           <Form.Label>Notes and Symptom Entry</Form.Label>
           <Form.Control as="textarea" rows={3} />
         </Form.Group>
-
-        <Button variant="primary" type="submit">
+      {/* Actions */}
+      <div className="flex justify-end space-x-4">
+        <button className="bg-blue-500"></button>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
           Save Profile
         </Button>
       </Form>

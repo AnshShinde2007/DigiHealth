@@ -16,7 +16,7 @@ function AppNavbar() {
         <Nav className="mr-auto">
           <Nav.Link as={Link} to="/">Home</Nav.Link>
           <Nav.Link as={Link} to="/about">About</Nav.Link>
-          <Nav.Link as={Link} to="/register">Register</Nav.Link>
+          <Nav.Link as={Link} to="/Login">Login</Nav.Link>
           {isAuthenticated && (
             <>
               <Nav.Link as={Link} to="/profiles">Profiles</Nav.Link>

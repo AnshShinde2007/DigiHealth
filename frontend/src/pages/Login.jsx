@@ -3,29 +3,17 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function Login() {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect,logout } = useAuth0();
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Col md="6">
-          <h1>Login</h1>
-          <Form>
-            <Form.Group controlId="formRole">
-              <Form.Label>Select Role</Form.Label>
-              <Form.Control as="select">
-                <option>Migrant</option>
-                <option>Health Worker</option>
-                <option>Admin</option>
-              </Form.Control>
-            </Form.Group>
-            <Button variant="primary" onClick={() => loginWithRedirect()}>
-              Log In
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <h1>Login</h1>
+      <p>Please log in to access the dashboard.</p>
+      <button onClick={() => loginWithRedirect()}>Log In</button>
+      <button className='bg-blue-500' onClick={() => logout()}>Log Out
+      </button>
+    </div>
+
   );
 }
 

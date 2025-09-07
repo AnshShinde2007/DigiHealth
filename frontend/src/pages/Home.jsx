@@ -1,8 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, ProgressBar } from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
-
-const API_URL = 'http://localhost:8000';
 
 function Home() {
   const [migrantsCount, setMigrantsCount] = useState(0);
@@ -27,6 +27,7 @@ function Home() {
         <h1>Welcome to DigiHealth</h1>
         <p>A Digital Health Record Management System for migrant workers in Kerala.</p>
       </div>
+
       <Container>
         <Row className="justify-content-md-center">
           <Col md="6">
