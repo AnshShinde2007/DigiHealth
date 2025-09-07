@@ -1,5 +1,5 @@
 import React from 'react';
-
+import "bootstrap/dist/css/bootstrap.min.css";
 const MigrantProfile = () => {
   return (
     <div className="container mx-auto p-4">
@@ -55,6 +55,7 @@ const MigrantProfile = () => {
 
       {/* Actions */}
       <div className="flex justify-end space-x-4">
+        <button className="bg-blue-500"></button>
         <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
           Save Profile
         </button>

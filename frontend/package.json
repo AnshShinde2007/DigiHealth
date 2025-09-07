@@ -1,8 +1,8 @@
 {
-  "name": "frontend",
+  "name": "DigiHealth-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.4.0",
+    "bootstrap": "^5.3.8",
     "dotenv": "^17.2.2",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

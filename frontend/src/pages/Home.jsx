@@ -1,13 +1,14 @@
-import React from 'react';
-import { Container, Row, Col, Form, Button, Jumbotron } from 'react-bootstrap';
+
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Home() {
   return (
     <div>
-      <Jumbotron className="text-center">
+      
         <h1>Welcome to DigiHealth</h1>
         <p>A Digital Health Record Management System for migrant workers in Kerala.</p>
-      </Jumbotron>
+      
       <Container>
         <Row className="justify-content-md-center">
           <Col md="6">

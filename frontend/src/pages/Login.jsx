@@ -10,6 +10,7 @@ function Login() {
       <p>Please log in to access the dashboard.</p>
       <button onClick={() => loginWithRedirect()}>Log In</button>
     </div>
+
   );
 }
 
