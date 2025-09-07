@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-function PatientRecords() {
+const PatientRecords = () => {
   return (
     <div>
       <h1>Patient Records</h1>
-      <p>Here you can manage patient records.</p>
+      {/* Add your content here */}
     </div>
   );
-}
+};
 
 export default PatientRecords;

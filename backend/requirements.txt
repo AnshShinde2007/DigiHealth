@@ -3,3 +3,4 @@ uvicorn
 python-jose[cryptography]
 requests
 python-dotenv
+SQLAlchemy
