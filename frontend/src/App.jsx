@@ -1,63 +1,59 @@
-import React, { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AppNavbar from './components/Navbar';
+import Home from './pages/Home';
+import About from './pages/About';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import PatientRecords from './pages/PatientRecords';
+import Admin from './pages/Admin';
+import Registration from './pages/Registration';
+import MigrantProfile from './pages/MigrantProfile';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const {
-    loginWithRedirect,
-    logout,
-    isAuthenticated,
-    user,
-    getAccessTokenSilently,
-    isLoading,
-  } = useAuth0();
-
-  const [apiResponse, setApiResponse] = useState(null);
-
-  const callApi = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/records`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      setApiResponse(data);
-    } catch (err) {
-      console.error("API call failed:", err);
-    }
-  };
-
-  if (isLoading) return <p>Loading...</p>;
-
   return (
-    <div style={{ padding: "2rem", fontFamily: "Arial" }}>
-      {!isAuthenticated ? (<>
-        <button onClick={() => loginWithRedirect()}>Log In</button>
-        <h1>Welcome to DigiHealth</h1>
-        </>
-      ) : (
-        <>
-          <h2>Welcome, {user.name}</h2>
-          <img src={user.picture} alt="profile" style={{ borderRadius: "50px" }} />
-          <p>Email: {user.email}</p>
-
-          <button
-            onClick={() => logout({ returnTo: window.location.origin })}
-            style={{ marginRight: "10px" }}
-          >
-            Log Out
-          </button>
-          <button onClick={callApi}>Fetch Health Records</button>
-
-          {apiResponse && (
-            <pre style={{ marginTop: "20px", background: "#f4f4f4", padding: "10px" }}>
-              {JSON.stringify(apiResponse, null, 2)}
-            </pre>
-          )}
-        </>
-      )}
-    </div>
+    <>
+      <AppNavbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Registration />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/records"
+          element={
+            <ProtectedRoute>
+              <PatientRecords />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <MigrantProfile />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 
