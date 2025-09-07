@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+ 
+import { Navbar, Nav,Button , Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function AppNavbar() {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
@@ -17,11 +19,12 @@ function AppNavbar() {
           <Nav.Link as={Link} to="/Login">Login</Nav.Link>
           {isAuthenticated && (
             <>
-              <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-              <Nav.Link as={Link} to="/records">Patient Records</Nav.Link>
-              <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
-              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+              <Nav.Link as={Link} to="/profiles">Profiles</Nav.Link>
+          <Nav.Link as={Link} to="/records">Records</Nav.Link>
+          <Nav.Link as={Link} to="/surveillance">Surveillance</Nav.Link>
+          <Nav.Link as={Link} to="/sdgs">SDGs</Nav.Link>
+          <Nav.Link as={Link} to="/reports">Reports</Nav.Link>
+          <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
             </>
           )}
         </Nav>
