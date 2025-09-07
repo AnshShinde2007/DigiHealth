@@ -6,12 +6,17 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000';
 
 function DiseaseSurveillance() {
-  const [cases, setCases] = useState([]);
+  const [cases, setCases] = useState([
+    { id: 1, disease: { name: 'Malaria' }, latitude: 10.8505, longitude: 76.2711 },
+    { id: 2, disease: { name: 'Dengue' }, latitude: 10.5276, longitude: 76.2144 },
+    { id: 3, disease: { name: 'Typhoid' }, latitude: 9.9312, longitude: 76.2673 },
+  ]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/surveillance/cases`).then(response => {
-      setCases(response.data);
-    });
+    // Commenting out API call to use dummy data
+    // axios.get(`${API_URL}/surveillance/cases`).then(response => {
+    //   setCases(response.data);
+    // });
   }, []);
 
   return (

@@ -6,21 +6,21 @@ const API_URL = 'http://localhost:8000';
 
 function MigrantProfile() {
   const [profile, setProfile] = useState({
-    name: '',
-    age: '',
-    gender: '',
-    origin: '',
-    language: '',
-    migration_timeline: ''
+    name: 'John Doe',
+    age: '30',
+    gender: 'Male',
+    origin: 'Syria',
+    language: 'Arabic',
+    migration_timeline: 'Fled home country in 2021, arrived in this country in 2022.'
   });
 
   useEffect(() => {
-    // Assuming a migrant_id of 1 for now
-    axios.get(`${API_URL}/migrants/1`).then(response => {
-      if (response.data) {
-        setProfile(response.data);
-      }
-    });
+    // Commenting out API call to use dummy data
+    // axios.get(`${API_URL}/migrants/1`).then(response => {
+    //   if (response.data) {
+    //     setProfile(response.data);
+    //   }
+    // });
   }, []);
 
   const handleChange = (e) => {

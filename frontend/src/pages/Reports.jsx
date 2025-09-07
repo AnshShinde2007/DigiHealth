@@ -25,8 +25,18 @@ function Reports() {
         <Card.Body>
           <Card.Title>Health Outcomes Graph</Card.Title>
           {/* Placeholder for graph */}
-          <div style={{ height: '300px', backgroundColor: '#f0f0f0' }}>
-            Graph will be here
+          <div style={{ height: '300px', backgroundColor: '#f0f0f0', padding: '20px' }}>
+            <h4>Summary of Health Outcomes Report (Dummy Data)</h4>
+            <p><strong>Total Patients:</strong> 500</p>
+            <p><strong>Patients with Improved Health:</strong> 350 (70%)</p>
+            <p><strong>Patients with Stable Health:</strong> 100 (20%)</p>
+            <p><strong>Patients with Deteriorated Health:</strong> 50 (10%)</p>
+            <p><strong>Key Findings:</strong></p>
+            <ul>
+              <li>Common ailments: Respiratory infections (30%), Malnutrition (25%), Waterborne diseases (15%).</li>
+              <li>Intervention success rate: 85% for respiratory infections, 60% for malnutrition.</li>
+              <li>Geographical areas with highest health improvements: North district.</li>
+            </ul>
           </div>
         </Card.Body>
       </Card>

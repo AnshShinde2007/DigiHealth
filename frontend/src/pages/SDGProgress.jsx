@@ -5,12 +5,17 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000';
 
 function SDGProgress() {
-  const [goals, setGoals] = useState([]);
+  const [goals, setGoals] = useState([
+    { id: 1, name: 'SDG 3: Good Health and Well-being', progress: 75, target: 100 },
+    { id: 2, name: 'SDG 4: Quality Education', progress: 60, target: 100 },
+    { id: 3, name: 'SDG 10: Reduced Inequalities', progress: 40, target: 100 },
+  ]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/sdg/goals`).then(response => {
-      setGoals(response.data);
-    });
+    // Commenting out API call to use dummy data
+    // axios.get(`${API_URL}/sdg/goals`).then(response => {
+    //   setGoals(response.data);
+    // });
   }, []);
 
   return (

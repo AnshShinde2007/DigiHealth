@@ -5,7 +5,11 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000';
 
 function HealthRecords() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState([
+    { id: 1, date: '2025-08-15', symptoms: 'Fever, Cough', diagnostics: 'Common Cold' },
+    { id: 2, date: '2025-07-20', symptoms: 'Headache', diagnostics: 'Migraine' },
+    { id: 3, date: '2025-06-10', symptoms: 'Rash', diagnostics: 'Allergic Reaction' },
+  ]);
   const [showModal, setShowModal] = useState(false);
   const [newRecord, setNewRecord] = useState({
     date: '',
@@ -14,10 +18,10 @@ function HealthRecords() {
   });
 
   useEffect(() => {
-    // Assuming a migrant_id of 1 for now
-    axios.get(`${API_URL}/health-records/1`).then(response => {
-      setRecords(response.data);
-    });
+    // Commenting out API call to use dummy data
+    // axios.get(`${API_URL}/health-records/1`).then(response => {
+    //   setRecords(response.data);
+    // });
   }, []);
 
   const handleShow = () => setShowModal(true);
@@ -29,10 +33,14 @@ function HealthRecords() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${API_URL}/health-records/`, { ...newRecord, migrant_id: 1 }).then(response => {
-      setRecords([...records, response.data]);
-      handleClose();
-    });
+    // Commenting out API call to use dummy data
+    // axios.post(`${API_URL}/health-records/`, { ...newRecord, migrant_id: 1 }).then(response => {
+    //   setRecords([...records, response.data]);
+    //   handleClose();
+    // });
+    // Add dummy record to state
+    setRecords([...records, { ...newRecord, id: records.length + 1 }]);
+    handleClose();
   };
 
   return (
