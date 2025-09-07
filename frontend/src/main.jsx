@@ -9,11 +9,11 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
   <Auth0Provider
-    domain="dev-80yd7ehi43fqphtt.us.auth0.com"
-    clientId="ajsjAyfi3knKQ9qSXxYPeyyfpbqW8leY"
+     domain="dev-80yd7ehi43fqphtt.us.auth0.com"
+     clientId="ajsjAyfi3knKQ9qSXxYPeyyfpbqW8leY"
     authorizationParams={{
       redirect_uri: window.location.origin,
-      audience: "https://www.digihealth.com",
+      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
     }}
   >
     <BrowserRouter>

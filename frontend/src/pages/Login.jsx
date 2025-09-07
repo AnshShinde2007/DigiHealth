@@ -9,8 +9,9 @@ function Login() {
       <h1>Login</h1>
       <p>Please log in to access the dashboard.</p>
       <button onClick={() => loginWithRedirect()}>Log In</button>
-      <button className='bg-blue-500' onClick={() => logout()}>Log Out
-      </button>
+      <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+      Log Out
+    </button>
     </div>
 
   );
