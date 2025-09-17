@@ -1,30 +1,33 @@
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPBearer
 from jose import jwt
 import requests, os
-from dotenv import load_dotenv
 
-# Load environment variables from .env
-load_dotenv()
-
-AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
-API_AUDIENCE = os.getenv("API_AUDIENCE")
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")      # e.g. "your-tenant.us.auth0.com"
+API_AUDIENCE = os.getenv("API_AUDIENCE") # e.g. "https://myapi/"
 ALGORITHMS = ["RS256"]
 
-security = HTTPBearer()
+bearer_scheme = HTTPBearer()
 
-def verify_jwt(token: str = Depends(security)):
+# Cache the JWKS keys
+_jwks = None
+def get_jwks():
+    global _jwks
+    if not _jwks:
+        url = f"https://{AUTH0_DOMAIN}/.well-known/jwks.json"
+        _jwks = requests.get(url).json()
+    return _jwks
+
+def verify_jwt(token: str = Security(bearer_scheme)):
     try:
-        header = jwt.get_unverified_header(token.credentials)
+        unverified_header = jwt.get_unverified_header(token.credentials)
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid header")
 
-    jwks_url = f"https://{AUTH0_DOMAIN}/.well-known/jwks.json"
-    jwks = requests.get(jwks_url).json()
-
+    jwks = get_jwks()
     rsa_key = {}
     for key in jwks["keys"]:
-        if key["kid"] == header["kid"]:
+        if key["kid"] == unverified_header["kid"]:
             rsa_key = {
                 "kty": key["kty"],
                 "kid": key["kid"],
@@ -32,7 +35,6 @@ def verify_jwt(token: str = Depends(security)):
                 "n": key["n"],
                 "e": key["e"],
             }
-
     if not rsa_key:
         raise HTTPException(status_code=401, detail="Invalid key")
 
@@ -44,6 +46,7 @@ def verify_jwt(token: str = Depends(security)):
             audience=API_AUDIENCE,
             issuer=f"https://{AUTH0_DOMAIN}/",
         )
-        return payload
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+    return payload

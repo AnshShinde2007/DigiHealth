@@ -1,69 +1,144 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 const MigrantProfile = () => {
+  const [profile, setProfile] = useState({
+    name: 'John Doe',
+    age: '30',
+    gender: 'Male',
+    origin: 'Syria',
+    language: 'Arabic',
+    migration_timeline: 'Fled home country in 2021, arrived in this country in 2022.'
+  });
+
+  const handleChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post(`${API_URL}/migrants/`, profile)
+      .then(response => {
+        console.log("Profile saved:", response.data);
+      })
+      .catch(error => {
+        console.error("Error saving profile:", error);
+      });
+  };
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Migrant Profile Management</h1>
+    <Container className="my-5">
+      <h1 className="mb-4">Migrant Profile Management</h1>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <Col md={6}>
+            <Form.Group controlId="formName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control 
+                type="text" 
+                name="name" 
+                value={profile.name} 
+                onChange={handleChange} 
+                placeholder="Enter name" 
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="formAge">
+              <Form.Label>Age</Form.Label>
+              <Form.Control 
+                type="number" 
+                name="age" 
+                value={profile.age} 
+                onChange={handleChange} 
+                placeholder="Enter age" 
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-      {/* Personal Information Section */}
-      <div className="bg-white shadow-md rounded p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
-        <form>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700">First Name</label>
-              <input type="text" className="w-full p-2 border rounded" />
-            </div>
-            <div>
-              <label className="block text-gray-700">Last Name</label>
-              <input type="text" className="w-full p-2 border rounded" />
-            </div>
-            <div>
-              <label className="block text-gray-700">Date of Birth</label>
-              <input type="date" className="w-full p-2 border rounded" />
-            </div>
-            <div>
-              <label className="block text-gray-700">Country of Origin</label>
-              <input type="text" className="w-full p-2 border rounded" />
-            </div>
-          </div>
-        </form>
-      </div>
+        <Row>
+          <Col md={6}>
+            <Form.Group controlId="formGender">
+              <Form.Label>Gender</Form.Label>
+              <Form.Control 
+                as="select" 
+                name="gender" 
+                value={profile.gender} 
+                onChange={handleChange}
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </Form.Control>
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="formOrigin">
+              <Form.Label>Origin</Form.Label>
+              <Form.Control 
+                type="text" 
+                name="origin" 
+                value={profile.origin} 
+                onChange={handleChange} 
+                placeholder="Enter origin country" 
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-      {/* Health Records Section */}
-      <div className="bg-white shadow-md rounded p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Health Records</h2>
-        <form>
-          <div className="mb-4">
-            <label className="block text-gray-700">Allergies</label>
-            <textarea className="w-full p-2 border rounded"></textarea>
-          </div>
-          <div>
-            <label className="block text-gray-700">Current Medications</label>
-            <textarea className="w-full p-2 border rounded"></textarea>
-          </div>
-        </form>
-      </div>
+        <Row>
+          <Col md={6}>
+            <Form.Group controlId="formLanguage">
+              <Form.Label>Language</Form.Label>
+              <Form.Control 
+                type="text" 
+                name="language" 
+                value={profile.language} 
+                onChange={handleChange} 
+                placeholder="Enter language" 
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-      {/* Notes and Symptoms Section */}
-      <div className="bg-white shadow-md rounded p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Notes and Symptoms</h2>
-        <form>
-          <textarea className="w-full p-2 border rounded" rows="5"></textarea>
-        </form>
-      </div>
+        {/* Tabs Section */}
+        <Tabs defaultActiveKey="health-history" className="mt-4">
+          <Tab eventKey="health-history" title="Health History">
+            <Form.Group controlId="formMigrationTimeline" className="mt-3">
+              <Form.Label>Migration Timeline</Form.Label>
+              <Form.Control 
+                as="textarea" 
+                name="migration_timeline" 
+                value={profile.migration_timeline} 
+                onChange={handleChange} 
+                rows={3} 
+              />
+            </Form.Group>
+          </Tab>
+          <Tab eventKey="vaccinations" title="Vaccinations">
+            <p className="mt-3">Vaccination and medical history will go here.</p>
+          </Tab>
+        </Tabs>
 
-      {/* Actions */}
-      <div className="flex justify-end space-x-4">
-        <button className="bg-blue-500"></button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Save Profile
-        </button>
-        <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-          Download Case Summary
-        </button>
-      </div>
-    </div>
+        {/* Notes */}
+        <Form.Group controlId="formNotes" className="mt-4">
+          <Form.Label>Notes and Symptom Entry</Form.Label>
+          <Form.Control as="textarea" rows={3} placeholder="Enter additional notes..." />
+        </Form.Group>
+
+        {/* Actions */}
+        <div className="d-flex justify-content-end mt-4">
+          <Button type="submit" variant="primary">
+            Save Profile
+          </Button>
+        </div>
+      </Form>
+    </Container>
   );
 };
 
